@@ -14,4 +14,4 @@ A script for submitting file to Marmoset Server in University of Waterloo
 ## Suggestion
 This script submits your file through Student Computing Environment, so it may require your password for multiple times. It is recommended to set up your ssh key.
 
-For more information about ssh key: (Generating SSH keys](https://help.github.com/articles/generating-ssh-keys/)
+For more information about ssh key: [Generating SSH keys](https://help.github.com/articles/generating-ssh-keys/)
