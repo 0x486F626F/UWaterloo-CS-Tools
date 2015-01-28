@@ -1,0 +1,45 @@
+#! /bin/bash
+
+script_name=marmoset_submit.sh
+script=/tmp/$script_name
+
+help () {
+	echo "Version 0.1" >&2
+	echo "./marmoset QuestID Course Question File" >&2
+	echo "Example" >&2
+	echo "./marmoset yourid cs241 a1p1 test.cc" >&2
+	exit 1
+}
+
+assert_existence () {
+	if [ ! -f $1 ]; then
+		echo "File: $1 dose not exist!" >&2
+		clean
+		exit 1
+	fi
+}
+
+assert_readability () {
+	if [ ! -r $1 ]; then
+		echo "File: $1 is not readable" >&2
+		clean
+		exit 1
+	fi
+}
+
+make_script () {
+	echo "source /u/cs241/setup" > $script
+	echo "marmoset_submit $1 $2 $3" >> $script
+	echo "rm $script_name $3" >> $script
+}
+
+if [ $# -ne 4 ]; then
+	help
+fi
+
+assert_existence $4
+assert_readability $4
+
+make_script $2 $3 $4
+scp $script $4 "$1@linux.student.cs.uwaterloo.ca:~"
+ssh "$1@linux.student.cs.uwaterloo.ca" 'bash '$script_name''
