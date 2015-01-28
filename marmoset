@@ -43,3 +43,4 @@ assert_readability $4
 make_script $2 $3 $4
 scp $script $4 "$1@linux.student.cs.uwaterloo.ca:~"
 ssh "$1@linux.student.cs.uwaterloo.ca" 'bash '$script_name''
+rm $script
