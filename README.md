@@ -1,9 +1,23 @@
 # MarmosetSubmit
 A script for submitting file to Marmoset Server in University of Waterloo
 
-## Usage
+## Examples
+Submit a single file
 ```bash
-./marmoset QuestID Course Question File
+marmoset_submit -q [questid] -c [course] -p [project] [file]
+```
+Submit a zip package
+```bash
+marmoset_submit -q [questid] -c [course] -p [project] -z [files..]
+```
+Adding -s can save current configuration
+```bash
+marmoset_submit -s -q [questid] -c [course] -p [project] [file]
+marmoset_submit -s -q [questid] -c [course] -p [project] -z [files..]
+```
+Auto-submit based the confugration file
+```bash
+marmoset_submit -a
 ```
 
 ## Example

@@ -1,0 +1,134 @@
+#!/bin/bash
+
+save_this_config=false
+auto_submit=false
+zip_file=false
+project_config=.marmoset_submit
+
+submit() {
+	if [ ${#account} -le 0 ]; then
+		echo "Quest ID is not provided"
+		exit 1
+	fi
+	if [ ${#course} -le 0 ]; then
+		echo "Course name is not provided"
+		exit 1
+	fi
+	if [ ${#Project} -le 0 ]; then
+		echo "Project name is not provided"
+		exit 1
+	fi
+	if [ ${#file} -le 0 ]; then
+		echo "File name is not provided"
+		exit 1
+	fi
+	scp $file "$account@linux.student.cs.uwaterloo.ca:/tmp"
+	ssh "$account@linux.student.cs.uwaterloo.ca" \
+		'/u/cs241/pub/bin.x86_64/marmoset_submit '$course $project /tmp/$file''
+}
+
+zip_package() {
+	file=$1.zip
+	if [ -f $file ]; then
+		rm $file
+	fi
+	shift
+	zip $file $@
+	zip_file=true
+}
+
+save_config() {
+	if [ ${#project} -ge 0 ] && [ ${#course} -ge 0 ]; then
+		if [ $1 == -z ] && [ $# -ge 2 ]; then
+			echo "-q $account " > $project_config
+			echo "-c $course " >> $project_config
+			echo "-p $project " >> $project_config
+			echo "$@" >> $project_config
+		fi
+		if [ $1 != -z ] && [ $# -ge 1 ]; then
+			echo "-q $account " > $project_config
+			echo "-c $course " >> $project_config
+			echo "-p $project " >> $project_config
+			echo "$@" >> $project_config
+		fi
+	fi
+}
+
+load_config() {
+	if [ -f $project_config ]; then
+		main `cat $project_config`
+	else
+		echo "Project config file if missing"
+		echo "add -s can save current configuration:"
+		echo "marmoset_submit -s -q [questid] -c [course] -p [project] [file]"
+		echo "marmoset_submit -s -q [questid] -c [course] -p [project] -z [files..]"
+	fi
+}
+
+example() {
+	echo "submit a single file:"
+	echo "marmoset_submit -q [questid] -c [course] -p [project] [file]"
+	echo "submit a zip package:"
+	echo "marmoset_submit -q [questid] -c [course] -p [project] -z [files..]"
+	echo "add -s can save current configuration:"
+	echo "marmoset_submit -s -q [questid] -c [course] -p [project] [file]"
+	echo "marmoset_submit -s -q [questid] -c [course] -p [project] -z [files..]"
+	echo "auto-submit based the configuration file:"
+	echo "marmoset_submit -a"
+}
+
+main() {
+	for arg in $@; do
+		case $arg in
+			-h|--help)
+				example
+				shift
+				exit 0
+				;;
+			-q|--questid)
+				account=$2
+				shift
+				shift
+				;;
+			-c|--course)
+				course=$2
+				shift
+				shift
+				;;
+			-p|--project)
+				project=$2
+				shift
+				shift
+				;;
+			-s|--save)
+				save_this_config=true
+				shift
+				;;
+			-a|--auto)
+				auto_submit=true
+				shift
+				;;
+		esac
+	done	
+
+	if $auto_submit; then
+		auto_submit=false
+		load_config
+	else
+
+		if $save_this_config; then
+			save_config $@
+		fi
+
+		if [ $1 == -z ]; then
+			shift
+			zip_package $@
+		else
+			file=$1
+		fi
+
+	fi
+}
+
+main $@
+submit
