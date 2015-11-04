@@ -70,7 +70,7 @@ example() {
 	echo "marmoset_submit -q [questid] -c [course] -p [project] [file]"
 	echo "submit a zip package:"
 	echo "marmoset_submit -q [questid] -c [course] -p [project] -z [files..]"
-	echo "add -s can save current configuration:"
+	echo "adding -s can save current configuration:"
 	echo "marmoset_submit -s -q [questid] -c [course] -p [project] [file]"
 	echo "marmoset_submit -s -q [questid] -c [course] -p [project] -z [files..]"
 	echo "auto-submit based the configuration file:"
