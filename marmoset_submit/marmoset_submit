@@ -6,7 +6,6 @@ zip_file=false
 project_config=.marmoset_submit
 
 submit() {
-
 	if [ -z ${account} ]; then
 		echo "Quest ID is not provided"
 		exit 1
@@ -62,7 +61,7 @@ load_config() {
 		echo "Project config file if missing"
 		echo "add -s can save current configuration:"
 		echo "marmoset_submit -s -q [questid] -c [course] -p [project] [file]"
-		echo "marmoset_submit -s -q [questid] -c [course] -p [project] -z [files..]"
+		echo "marmoset_submit -s -q [questid] -c [course] -p [project] -z [zipname] [files..]"
 	fi
 }
 
@@ -70,10 +69,10 @@ example() {
 	echo "submit a single file:"
 	echo "marmoset_submit -q [questid] -c [course] -p [project] [file]"
 	echo "submit a zip package:"
-	echo "marmoset_submit -q [questid] -c [course] -p [project] -z [files..]"
+	echo "marmoset_submit -q [questid] -c [course] -p [project] -z [zipname] [files..]"
 	echo "adding -s can save current configuration:"
 	echo "marmoset_submit -s -q [questid] -c [course] -p [project] [file]"
-	echo "marmoset_submit -s -q [questid] -c [course] -p [project] -z [files..]"
+	echo "marmoset_submit -s -q [questid] -c [course] -p [project] -z [zipname] [files..]"
 	echo "auto-submit based the configuration file:"
 	echo "marmoset_submit -a"
 }
