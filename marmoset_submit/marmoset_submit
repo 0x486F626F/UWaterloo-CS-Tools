@@ -6,11 +6,7 @@ zip_file=false
 project_config=.marmoset_submit
 
 submit() {
-	echo "quest:$account"
-	echo "course:$course"
-	echo "project:$project"
-	echo "save:$save_this_config"
-	echo "auto:$auto_submit"
+
 	if [ -z ${account} ]; then
 		echo "Quest ID is not provided"
 		exit 1
