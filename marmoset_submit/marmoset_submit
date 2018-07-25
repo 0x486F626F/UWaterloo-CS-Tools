@@ -24,7 +24,7 @@ submit() {
 	fi
 	scp $file "$account@linux.student.cs.uwaterloo.ca:~/"
 	ssh "$account@linux.student.cs.uwaterloo.ca" \
-		'/u/cs241/pub/bin.x86_64/marmoset_submit' $course $project '~/'$file
+		'/u/cs241/pub/bin/marmoset_submit' $course $project '~/'$file
 	ssh "$account@linux.student.cs.uwaterloo.ca" 'rm ~/'$file
 }
 
